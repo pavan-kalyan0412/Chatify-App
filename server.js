@@ -15,7 +15,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Run when clients connect
 io.on('connection', socket => {
-    console.log('a new user');
  
     //welcome the current user
     socket.emit('message', 'Welcome to Chatify');
