@@ -15,6 +15,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Run when clients connect
 io.on('connection', socket => {
+    console.log('a new user');
  
     //welcome the current user
     socket.emit('message', 'Welcome to Chatify');
@@ -24,7 +25,7 @@ io.on('connection', socket => {
 
     //Runs when user disconnects;
     socket.on('disconnect', () =>{
-        io.emit('message', 'A user has left the chat')
+        socket.broadcast.emit('message', 'A user has left the chat')
     })
 });
 
