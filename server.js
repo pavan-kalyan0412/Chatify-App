@@ -30,6 +30,7 @@ io.on('connection', socket => {
     //listen for the chta message
     socket.on('chatMessage', (message) =>{
         console.log("the message from chat:", message);
+        io.emit('message', message)
 
     })
 });
