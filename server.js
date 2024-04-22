@@ -3,17 +3,31 @@ const app = express();
 const path = require('path');
 const http = require('http');
 const socketio = require('socket.io');
- const server = http.createServer(app);
- const io = socketio(server);
 
+// Create HTTP server
+const server = http.createServer(app);
 
-// set static folder
+// Initialize Socket.io
+const io = socketio(server);
+
+// Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-io.on('connection', (socket) =>{
-    console.log('New WS connected');
+// Run when clients connect
+io.on('connection', socket => {
+ 
+    //welcome the current user
+    socket.emit('message', 'Welcome to Chatify');
+
+    //broadcast when a user connects;
+    socket.broadcast.emit('message', 'A user has Joined the chat');
+
+    //Runs when user disconnects;
+    socket.on('disconnect', () =>{
+        io.emit('message', 'A user has left the chat')
+    })
 });
 
-const PORT = 3000 || process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => console.log(`server running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
