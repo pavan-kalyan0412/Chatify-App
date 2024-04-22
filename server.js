@@ -25,6 +25,12 @@ io.on('connection', socket => {
     //Runs when user disconnects;
     socket.on('disconnect', () =>{
         socket.broadcast.emit('message', 'A user has left the chat')
+    });
+
+    //listen for the chta message
+    socket.on('chatMessage', (message) =>{
+        console.log("the message from chat:", message);
+
     })
 });
 
