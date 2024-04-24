@@ -39,7 +39,9 @@ io.on('connection', socket => {
     //listen for the chta message
     socket.on('chatMessage', (message) =>{
         console.log("the message from chat:", message);
-        io.emit('message', formatMessage('User',message));
+
+        const user = getCurrentUser(socket.id);
+        io.to(user.room).emit('message', formatMessage(user.username,message));
     })
 
     //Runs when user disconnects;
