@@ -4,6 +4,7 @@ const path = require('path');
 const http = require('http');
 const socketio = require('socket.io');
 const formatMessage = require('./utils/messages');
+const { userJoin, getCurrentUser } = require('./utils/users')
 
 // Create HTTP server
 const server = http.createServer(app);
@@ -18,23 +19,33 @@ const botName = 'User X';
 
 // Run when clients connect
 io.on('connection', socket => {
- 
-    //welcome the current user
-    socket.emit('message',formatMessage(botName, 'Welcome to Chatify'));
+    socket.on('joinRoom', ({ username, room}) =>{
+        const user = userJoin(socket.id, username, room)
+
+        socket.join(user.room);
+        
+        //welcome current user
+    socket.emit('message', formatMessage(botName, 'Welcome to Chatify'))
+  
+
 
     //broadcast when a user connects;
-    socket.broadcast.emit('message',formatMessage(botName, 'A user has Joined the chat'));
+    socket.broadcast
+        .to(user.room)
+        .emit('message',formatMessage(botName, `${user.username} has Joined the chat`));
 
-    //Runs when user disconnects;
-    socket.on('disconnect', () =>{
-        socket.broadcast.emit('message',formatMessage(botName, 'A user has left the chat'))
-    });
+});
 
     //listen for the chta message
     socket.on('chatMessage', (message) =>{
         console.log("the message from chat:", message);
         io.emit('message', formatMessage('User',message));
     })
+
+    //Runs when user disconnects;
+    socket.on('disconnect', () =>{
+        socket.broadcast.emit('message',formatMessage(botName, 'A user has left the chat'))
+    });
 });
 
 const PORT = process.env.PORT || 3000;
