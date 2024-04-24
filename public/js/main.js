@@ -70,4 +70,7 @@ function outputRoomName(room){
 }
 
 // //add users to DON
-// function outputUsers
+function outputUsers(users){
+    userList.innerHTML = `
+   ${users.map(user => `<li>${user.username}<li>`).join('')}`
+};
