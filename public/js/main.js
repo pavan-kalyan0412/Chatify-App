@@ -3,6 +3,7 @@ const chatMessages = document.querySelector('.chat-messages');
 
 const roomName = document.getElementById('room-name');
 const userList = document.getElementById('users');
+const typingIndicator = document.getElementById('typing-indicator');
 
 //get username and room from the URL
 const {username, room} = Qs.parse(location.search, {
@@ -32,7 +33,9 @@ socket.on('message', message =>{
     chatMessages.scrollTop = chatMessages.scrollHeight;
 })
 
+// Listen for the submit event on the chat form
 chatForm.addEventListener('submit', (e) =>{
+    // Prevent the default form submission behavior
     e.preventDefault();
 
 
@@ -40,11 +43,15 @@ chatForm.addEventListener('submit', (e) =>{
     const messageInput = document.getElementById('msg');
     const message = messageInput.value;
     
+    //testing purpose;
     console.log('the messagr from the input field:', message);
 
 
     //emit mssage to the server
     socket.emit('chatMessage', message);
+
+    // Clear the typing indicator
+    clearTypingIndicator();
 
     //clear the input once user the send the message
    messageInput.value = '';
@@ -89,3 +96,9 @@ messageInput.addEventListener('input', () => {
     socket.emit('typing', { username, room });
 });
 
+
+//function to clear the typing indicator
+function clearTypingIndicator(){
+    // Set the inner HTML of the typing indicator to an empty string
+    typingIndicator.innerHTML = '';
+}
