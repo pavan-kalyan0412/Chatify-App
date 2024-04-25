@@ -74,3 +74,18 @@ function outputUsers(users){
     userList.innerHTML = `
    ${users.map(user => `<li>${user.username}<li>`).join('')}`
 };
+
+const messageInput = document.getElementById('msg');
+
+// Listen for typing events from the server
+socket.on('typing', username => {
+    const typingIndicator = document.getElementById('typing-indicator');
+    typingIndicator.innerText = `${username} is typing...`;
+});
+
+// Add event listener to the message input field
+messageInput.addEventListener('input', () => {
+    // Emit a typing event to the server
+    socket.emit('typing', { username, room });
+});
+

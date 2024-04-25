@@ -46,6 +46,12 @@ io.on('connection', socket => {
         users: getRoomUsers(user.room)
         });
 
+
+        // Listen for 'typing' event
+    socket.on('typing', ({ username, room }) => {
+        socket.to(room).emit('typing', username);
+    });
+
 });
 
     //listen for the chta message
