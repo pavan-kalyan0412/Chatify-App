@@ -52,6 +52,12 @@ io.on('connection', socket => {
         socket.to(room).emit('typing', username);
     });
 
+    // Listen for 'stopTyping' event
+socket.on('stopTyping', ({ username, room }) => {
+    io.to(room).emit('stopTyping', username);
+});
+
+
 });
 
     //listen for the chta message

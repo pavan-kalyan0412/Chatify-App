@@ -50,6 +50,9 @@ chatForm.addEventListener('submit', (e) =>{
     //emit mssage to the server
     socket.emit('chatMessage', message);
 
+     // Emit stop typing event
+     socket.emit('stopTyping', { username, room });
+
     // Clear the typing indicator
     clearTypingIndicator();
 
@@ -94,6 +97,11 @@ socket.on('typing', username => {
 messageInput.addEventListener('input', () => {
     // Emit a typing event to the server
     socket.emit('typing', { username, room });
+});
+
+// Listen for stop typing events from the server
+socket.on('stopTyping', username => {
+    typingIndicator.innerText = '';
 });
 
 
