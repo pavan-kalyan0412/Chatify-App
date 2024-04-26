@@ -1,4 +1,4 @@
-Chatify App
+# **Chatify App**
 
 Chatify is a real-time chat application built with Node.js, Express, and Socket.IO. It allows users to join chat rooms, send messages, and see who else is currently online in the room.
 Features
