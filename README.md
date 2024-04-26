@@ -11,25 +11,17 @@ Installation
 
     Clone the repository:
 
-    bash
-
-git clone <repository_url>
+    git clone <repository_url>
 
 Install dependencies:
 
-bash
-
-npm install
+    npm install
 
 Start the server:
 
-bash
-
-npm start
+    npm start
 
 Open the application in your web browser:
-
-arduino
 
     http://localhost:3000
 
